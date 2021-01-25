@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+
+    <title>BMI Calculator</title>
+</head>
+<body>
+    <div id="app" class="container">
+    <h1>BMI Calculator</h1>
+    <form>
+    <p><label>Height in CM: </label><input v-model="height" type="text" id="height"></p>
+    <p><label>Weight in KG: </label><input v-model="weight" type="text" id="weight"></p>
+    <button @click.prevent="computeBmi" :disabled="!buttonActive">Calculate</button>
+    <div id="results" v-show="bmi">{{ getBmi }}</div>
+    <div id="weight-guide">
+    <h3 v-show="bmi">According to the guides... you're</h3>
+    <p v-if="bmi && bmi < 18.6">Under Weight = Less than 18.6</p>
+    <p v-if="bmi && bmi >= 18.6 && bmi <= 24.9">Normal Range = 18.6 and 24.9</p>
+    <p v-if="bmi && bmi > 24.9">Overweight = Greater than 24.9</p>
+    </div>
+    </form>
+    </div>
+</body>
+</html>

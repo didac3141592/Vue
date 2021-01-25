@@ -1,0 +1,1 @@
+A very simple and basic program that retrieves text from an input box.
