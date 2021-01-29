@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Monster Slayer</h1>
+    </header>
+    <div id="game">
+      <section id="monster" class="container">
+        <h2>Monster Health</h2>
+        <div class="healthbar">
+          <!-- Dynamic styling to modify the health bars in-game  -->
+          <div class="healthbar__value" :style="monsterHealthBarStyles"></div>
+        </div>
+      </section>
+      <section id="player" class="container">
+        <h2>Your Health</h2>
+        <div class="healthbar">
+          <div class="healthbar__value" :style="playerHealthBarStyles"></div>
+        </div>
+      </section>
+      <!-- This 'game-over' section will only show when there is a winner defined. I'm using v-if because I do not want it to be rendered unless the game is over.  -->
+      <section v-if="winner" class="container">
+        <h2>Game Over!</h2>
+        <h3 v-if="winner === 'monster'">You lost! :/</h3>
+        <h3 v-else-if="winner === 'player'">You win! :)</h3>
+        <h3 v-else="winner === 'draw'">It's a draw :(</h3>
+        <button @click="startGame">Start New Game</button>
+      </section>
+      <!-- I'm using v-else because there is no point in having the controls rendered when the game is over, plus, since this section is directly below the previous one, in which the v-if is defined, Vue automatically understands which is the condition and there is no need to specify. -->
+      <section id="controls" v-else>
+        <button @click="attackMonster">ATTACK</button>
+        <button @click="specialAttackMonster" :disabled="!specialAttackReady">SPECIAL ATTACK</button>
+        <button @click="healPlayer">HEAL</button>
+        <button @click="surrender">SURRENDER</button>
+      </section>
+      <section id="log" class="container">
+        <h2>Battle Log</h2>
+        <ul>
+          <li v-for="message in logMessages">
+            <div v-if="message.success">
+              <span :class="{'log--player': message.actionBy === 'player', 'log--monster': message.actionBy === 'monster'}">
+                {{ message.actionBy }}
+              </span>
+              performed {{ message.actionType }} with a value of 
+              <span :class="{'log--damage': message.actionType === 'attack', 'log--heal': message.actionType === 'heal'}">
+                {{ message.actionValue}}
+              </span>
+            </div>
+            <div v-else>
+              <span :class="{'log--player': message.actionBy === 'player', 'log--monster': message.actionBy === 'monster'}">
+                {{ message.actionBy }}
+              </span>
+              tried to {{ message.actionType }}
+              <span class="log--damage">
+                but failed.
+              </span>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </body>
+</html>
