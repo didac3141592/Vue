@@ -22,7 +22,6 @@ app.component('poker-game', {
                         suit: this.suits[suit],
                         name: this.numbers[number] + this.suits[suit],
                         url: './png/' + this.numbers[number] + '_of_' + this.suits[suit] + '.png',
-                        facedown: true,
                     });
                 }
             }
@@ -48,7 +47,7 @@ app.component('poker-card', {
             type: String,
             required: false,
         },
-     },
+    },
     data() {
         return {
             faceDown: true,
@@ -69,8 +68,5 @@ app.component('poker-card', {
     </div>
     `
 })
-
-
-
 
 app.mount('#app');
